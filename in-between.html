@@ -24,20 +24,28 @@
 
 
 	<!-- Upper and lower cards dealt -->
-	<div id="hand">
-		<p> </p>
+	<div id="cardFields">
+		<p id="lowerCardDisplay">Lower Card</p>
 		<h1>LOWER</h1>
-		<p> </p>
+
+		<p id="drawnCardDisplay">Card drawn</p>
+		<p id="higherCardDisplay">Upper Card</p>
 		<h1>UPPER</h1>
 	</div>
 	
 	<!-- Mouney counter -->
 	<div>
-		<h1>$<span>COUNTER</span></h1>
+		<h1 id = "counter">$<span>COUNTER</span></h1>
 	</div>
 
-	<!-- Button to deal cards -->
-	<button>Deal</button>
+	<!-- Button to deal cards - should disappear after dealt -->
+	<button id="dealButton">Deal</button>
+	<!-- Option to draw a card or pass after being dealt hand -->
+	<button id="drawButton">Draw</button>
+	<button id="passButton">Pass</button>
+
+	<!-- Field to input bet -->
+	<input type="text" name="betValue">
 
 	<script type="text/javascript" src="in-between.js"></script>
 </body>

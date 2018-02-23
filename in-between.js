@@ -26,12 +26,18 @@ var lowerCard;
 // Higher card
 var higherCard;
 
+// Card Drawn
+var drawnCard;
+
 //Visuals for lower and upper bound
-var lowerCardDisplay = document.getElementsByTagName("p")[1];
-var higherCardDisplay = document.getElementsByTagName("p")[2];
+var lowerCardDisplay = document.getElementById("lowerCardDisplay");
+var higherCardDisplay = document.getElementById("higherCardDisplay");
+// Visuals for third card
+var drawnCardDisplay = document.getElementById("drawnCardDisplay");
+
 
 // Deal button - deals 2 cards to player
-var dealButton = document.querySelector("button");
+var dealButton = document.getElementById("dealButton");
 dealButton.addEventListener("click", function(){
 
     if (hand.length === 2) {
@@ -65,16 +71,31 @@ dealButton.addEventListener("click", function(){
         });
         // Print out hand 
         for (var i = 0; i < 2; i++){
-            console.log(`Card is ${hand[i].value} of ${hand[i].suit}`) 
+            console.log(`Card is ${hand[i].value} of ${hand[i].suit}`);
         }
-        // ** Update higher and lower Card 
-        lowerCard = hand.slice(0, 1);
-        higherCard = hand.slice(1, 2);
+
+        lowerCard = hand[0];
+        higherCard = hand[1];
 
         // ** Update display
-        lowerCardDisplay.textContent = `${lowerCard[0].value} ${lowerCard[0].suit}`;
-        higherCardDisplay.textContent = `${higherCard[0].value} ${higherCard[0].suit}`;
+        lowerCardDisplay.textContent = `${lowerCard.value} ${lowerCard.suit}`;
+        higherCardDisplay.textContent = `${higherCard.value} ${higherCard.suit}`;
     }
+});
+
+
+// Deal button
+var drawButton = document.getElementById("drawButton");
+
+// Draw a third card after clicking deal
+drawButton.addEventListener("click", function(){
+    if (drawnCard === undefined){
+        drawnCard = deck.pop();
+    }
+    else{
+        console.log("Third card has been drawn")
+    }
+    drawnCardDisplay.textContent= `${drawnCard.value} ${drawnCard.suit}`;
 });
 
 // Card object
