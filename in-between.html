@@ -2,51 +2,76 @@
 <html>
 <head>
 	<title>In-between</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="in-between.css">
 
 </head>
 <body>
-	<!-- Title -->
-	<h1>In-Between</h1>
-	<!-- Stats of winning box-->
-	<div>
-		<ul>
-			<li>In the boundary: <span>X</span>%</li>
-			<li>Outside the boundary: <span>X</span>%</li>
-			<li>On the boundary: <span>X</span>%</li>
-		</ul>
-	</div>
+		<div class="container">
+			<!-- Title -->
+			<div id="title">
+				<h1>In-Between</h1>
+				<p id="statusDisplay"></p>
+			</div>
+			
+			<!-- Stats of winning box-->
+		<!-- 	<div>
+				<ul>
+					<li>In the boundary: <span>X</span>%</li>
+					<li>Outside the boundary: <span>X</span>%</li>
+					<li>On the boundary: <span>X</span>%</li>
+				</ul>
+			</div> -->
 
-	<!-- Deck image - where shuffling animation -->
-	<div id="cardDeck">
-		<p>Deck of cards</p>
-	</div>
+			<!-- Deck image - where shuffling animation -->
+			<div class="row">
+				<!-- Mouney counter -->
+				<div class="col-lg-4">
+					<h4 id = "counter" class="float-left">$<span>10</span>  <span></span></h1>
+				</div>
 
+				<div id="cardDeck" class="col-lg">
+					<h4 class="float-right">Deck of cards</p>
+				</div>	
+			</div>
 
+			<!-- Upper and lower cards dealt -->	
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="rectangle">
+						<p id="lowerCardDisplay" class="cardInfo">Lower Card</p>
+					</div>
+					<h4>LOWER</h4>
+				</div>
+				<div class="col-lg-4">
+					<div class="rectangle">
+						<p id="drawnCardDisplay" class="cardInfo">Card drawn</p>
+					</div>
+					<h4>DRAWN</h4>
+				</div>
+				<div class="col-lg-4">
+					<div class="rectangle">
+						<p id="higherCardDisplay" class="cardInfo">Upper Card</p>
+					</div>
+					<h4>UPPER</h4>
+				</div>
+			</div>
 
-	<!-- Upper and lower cards dealt -->
-	<div id="cardFields">
-		<p id="lowerCardDisplay">Lower Card</p>
-		<h1>LOWER</h1>
+			<!-- Button to deal cards - should disappear after dealt -->
+			<button id="dealButton">Deal</button>
+			<!-- Option to draw a card or pass after being dealt hand -->
+			<button id="drawButton">Draw</button>
+			<button id="passButton">Pass</button>
 
-		<p id="drawnCardDisplay">Card drawn</p>
-		<p id="higherCardDisplay">Upper Card</p>
-		<h1>UPPER</h1>
-	</div>
-	
-	<!-- Mouney counter -->
-	<div>
-		<h1 id = "counter">$<span>COUNTER</span></h1>
-	</div>
+			
+			
+			
+			<!-- <button id="test">Test</button> -->
 
-	<!-- Button to deal cards - should disappear after dealt -->
-	<button id="dealButton">Deal</button>
-	<!-- Option to draw a card or pass after being dealt hand -->
-	<button id="drawButton">Draw</button>
-	<button id="passButton">Pass</button>
-
-	<!-- Field to input bet -->
-	<input type="text" name="betValue">
-
-	<script type="text/javascript" src="in-between.js"></script>
-</body>
+			<!-- Field to input bet -->
+		<!-- 	<input type="text" name="betValue">
+		 -->
+			<script type="text/javascript" src="in-between.js"></script>
+		</div>
+	</body>
 </html>

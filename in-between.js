@@ -5,7 +5,6 @@
 
 // WRAP INTO MAIN FUNCTION?
 // Ascending value - allow for comparison
-const numValue = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 const suitValue = ['Diamonds','Clubs','Hearts','Spades'];
 
 // One player game - hand
@@ -18,7 +17,10 @@ var deck = deckInit();
 deck = shuffle(deck);
 
 // Money counter
-var money;
+var money = 10;
+var moneyDisplay = document.querySelector("span");
+var changeSpan = document.querySelectorAll("span")[1];
+var betAmount = 1;
 
 // Lower card
 var lowerCard;
@@ -35,28 +37,49 @@ var higherCardDisplay = document.getElementById("higherCardDisplay");
 // Visuals for third card
 var drawnCardDisplay = document.getElementById("drawnCardDisplay");
 
+// Visuals stating turnout of hand
+var statusDisplay = document.getElementById("statusDisplay");
+var status;
+
+//TEST
+// var testButton = document.getElementById("test");
+// testButton.addEventListener("click", function(){
+//     var deck = deckInit();
+//     deck = shuffle(deck);
+//     var lowerCard;
+//     var higherCard;
+//     var drawnCard;
+//     lowerCardDisplay.textContent = "";
+//     higherCardDisplay.textContent = "";
+
+
+// })
+
 
 // Deal button - deals 2 cards to player
 var dealButton = document.getElementById("dealButton");
-dealButton.addEventListener("click", function(){
+dealButton.addEventListener("click", deal);
+
+//Deal one card
+function deal() {
 
     if (hand.length === 2) {
-        console.log("Hand has been dealt!")
-    }
-    else {
+        statusDisplay.textContent = "Hand has been dealt!";
+        window.setTimeout(function() {statusDisplay.textContent = ""}, 5000);
+    } else {
         // Deal a cards to player
         while (hand.length < 2){
-            deal();
+            hand.push(deck.pop());;
         }
         // Sort cards by number value- lower being index 0
         hand.sort(function(a,b){
 
             // value of a is smaller than b 
-            if (numValue.indexOf(a.value) < numValue.indexOf(b.value)){
+            if (a.value < b.value){
                 return -1;        
             }
             // value of a is greater than b
-            else if (numValue.indexOf(a.value) > numValue.indexOf(b.value)){
+            else if (a.value > b.value){
                 return 1;        
             }
             // value of a is equal to b - sort by suit - a is higher suit than b
@@ -71,48 +94,91 @@ dealButton.addEventListener("click", function(){
         });
         // Print out hand 
         for (var i = 0; i < 2; i++){
-            console.log(`Card is ${hand[i].value} of ${hand[i].suit}`);
+            console.log(`Card is ${hand[i].name} of ${hand[i].suit}`);
         }
 
         lowerCard = hand[0];
         higherCard = hand[1];
 
         // ** Update display
-        lowerCardDisplay.textContent = `${lowerCard.value} ${lowerCard.suit}`;
-        higherCardDisplay.textContent = `${higherCard.value} ${higherCard.suit}`;
+        lowerCardDisplay.textContent = `${lowerCard.name} ${lowerCard.suit}`;
+        higherCardDisplay.textContent = `${higherCard.name} ${higherCard.suit}`;
+        dealButton.style.display = "none";
+        drawButton.style.display = "inline";
+        passButton.style.display = "inline";
     }
-});
+}
 
 
-// Deal button
-var drawButton = document.getElementById("drawButton");
+// DRAW BUTTON - Draw a third card after clicking deal
+var drawButton = document.getElementById("drawButton"); 
+drawButton.addEventListener("click", draw);
+drawButton.style.display = "none";
 
-// Draw a third card after clicking deal
-drawButton.addEventListener("click", function(){
+function draw() {
+
     if (drawnCard === undefined){
         drawnCard = deck.pop();
+
+        // Display drawn card
+        drawnCardDisplay.textContent= `${drawnCard.name} ${drawnCard.suit}`;
+
+        // Win if between the boundary
+        if (drawnCard.value > lowerCard.value && drawnCard.value < higherCard.value) {
+            statusDisplay.textContent = "Take your winnings!";
+            changeSpan.textContent = `+ $${betAmount}`
+        }
+
+        // Lose if outside the boundary
+        else if (drawnCard.value < lowerCard.value || drawnCard.value > higherCard.value) {
+            statusDisplay.textContent = "Pay up!";
+            changeSpan.textContent = `- $${betAmount}`
+            money--;
+        }
+
+        // On the boundary
+        else {
+            statusDisplay.textContent = "You pay double!";
+            changeSpan.textContent = `- ${betAmount * 2}`
+            money -= 2;
+        }
+        
+        window.setTimeout(function(){
+            moneyDisplay.textContent = money;
+            reset();
+        }, 4000);
     }
     else{
         console.log("Third card has been drawn")
     }
-    drawnCardDisplay.textContent= `${drawnCard.value} ${drawnCard.suit}`;
-});
+}
+
+// PASS BUTTON
+var passButton = document.getElementById("passButton"); 
+passButton.addEventListener("click", pass);
+passButton.style.display = "none";
+
+function pass() {
+    statusDisplay.textContent = "You passed!";
+    window.setTimeout(reset, 4000);
+}
 
 // Card object
-function card(value, suit) {
-	this.value = value;
+function card(value, name, suit) {
+    this.value = value;
+	this.name = name;
 	this.suit = suit;
 }
 
 //Make a set of 52 unique cards
 function deckInit(){
-	this.values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-	this.suits = ['Diamonds','Clubs','Hearts','Spades'];
+	this.names = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+	this.suits = ["Diamonds", "Clubs", "Hearts", "Spades"];
 	var cards = [];
     
-    for( var s = 0; s < this.suits.length; s++ ) {
-        for( var n = 0; n < this.values.length; n++ ) {
-            cards.push( new card( this.values[n], this.suits[s] ) );
+    for( var s = 0; s < this.names.length; s++ ) {
+        for( var n = 0; n < this.suits.length; n++ ) {
+            cards.push( new card( (s+1), this.names[s], this.suits[n]) );
         }
     }
 
@@ -131,8 +197,21 @@ function shuffle(array) {
     return array;
 }
 
-//Deal one card
-function deal() {
-    // Remove top card and add it to hand
-    hand.push(deck.pop());
+function reset() {
+    hand = [];
+    deck = deckInit();
+    deck = shuffle(deck);
+    lowerCard = null;
+    higherCard = null;
+    drawnCard = undefined;
+
+    lowerCardDisplay.textContent = "";
+    higherCardDisplay.textContent = "";
+    drawnCardDisplay.textContent = "";
+    statusDisplay.textContent = "";
+    changeSpan.textContent = "";
+
+    dealButton.style.display = "inline";
+    drawButton.style.display = "none";
+    passButton.style.display = "none";
 }
